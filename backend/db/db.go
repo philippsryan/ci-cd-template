@@ -2,6 +2,7 @@ package db
 
 import (
 	"database/sql"
+	"errors"
 	"fmt"
 	"os"
 	"time"
@@ -9,7 +10,7 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
-func CreateDatabaseConnection() *sql.DB {
+func CreateDatabaseConnection() (*sql.DB, error) {
 
 	host := os.Getenv("MYSQL_HOST")
 	user := os.Getenv("MYSQL_USER")
@@ -22,10 +23,10 @@ func CreateDatabaseConnection() *sql.DB {
 	connection.SetConnMaxLifetime(time.Minute * 3)
 
 	if err != nil {
-		panic("Could not connect to database" + err.Error())
+		return nil, errors.New("Could not connect to mysql database" + err.Error())
 	}
 
-	return connection
+	return connection, nil
 }
 
 func CloseDatabaseConnection(db *sql.DB) {

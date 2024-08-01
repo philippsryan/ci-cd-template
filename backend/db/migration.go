@@ -3,6 +3,7 @@ package db
 import (
 	"database/sql"
 	"errors"
+	"io/fs"
 	"os"
 	"sort"
 	"strconv"
@@ -20,14 +21,30 @@ func (m Migration) Apply(db *sql.DB) error {
 	return err
 }
 
+type ByMigrationFileNumber []fs.DirEntry
+
+func (mf ByMigrationFileNumber) Len() int      { return len(mf) }
+func (nf ByMigrationFileNumber) Swap(i, j int) { nf[i], nf[j] = nf[j], nf[i] }
+func (mf ByMigrationFileNumber) Less(i, j int) bool {
+
+	name_components := strings.Split(mf[i].Name(), ".")
+	i_id, _ := strconv.Atoi(name_components[1])
+
+	name_components = strings.Split(mf[j].Name(), ".")
+	j_id, _ := strconv.Atoi(name_components[1])
+
+	return i_id < j_id
+}
+
 func loadMigrationFiles() ([]Migration, error) {
 	migration_files, err := os.ReadDir("./migrations")
 
 	if err != nil {
-		println("Failed finding migration folder")
+		println("Failed finding migration folder: ", err.Error())
 		return nil, err
 	}
 
+	sort.Sort(ByMigrationFileNumber(migration_files))
 	migrations := make([]Migration, len(migration_files))
 
 	for _, file := range migration_files {

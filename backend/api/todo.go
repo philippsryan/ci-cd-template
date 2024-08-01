@@ -20,7 +20,7 @@ func CreateTodo(c echo.Context) error {
 		c.String(http.StatusBadRequest, "Could not parse todo to create")
 	}
 
-	database := db.CreateDatabaseConnection()
+	database, _ := db.CreateDatabaseConnection()
 
 	if userAlreadyExists(todo.Belongs_To, database, c) {
 		_, err := database.Exec("INSERT INTO Todo (BelongsTo, Title, Body) VALUES (?, ?, ?)", todo.Belongs_To, todo.Title, todo.Body)
@@ -39,7 +39,7 @@ func CreateTodo(c echo.Context) error {
 func GetTodo(c echo.Context) error {
 	user := c.QueryParam("user")
 
-	database := db.CreateDatabaseConnection()
+	database, _ := db.CreateDatabaseConnection()
 
 	if userAlreadyExists(user, database, c) {
 		result, err := database.Query("SELECT Title, Body FROM Todo WHERE BelongsTo = ?", user)

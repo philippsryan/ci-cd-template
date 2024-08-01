@@ -19,7 +19,7 @@ func main() {
 
 	if command == "migrations" {
 
-		database := db.CreateDatabaseConnection()
+		database, _ := db.CreateDatabaseConnection()
 		completed_migrations, err := db.RunMigrations(database)
 
 		if err != nil {
@@ -33,10 +33,9 @@ func main() {
 	if command == "server" {
 		e := echo.New()
 
-		database := db.CreateDatabaseConnection()
 		e.Use(func(next echo.HandlerFunc) echo.HandlerFunc {
 			return func(c echo.Context) error {
-				todo_context := &api.TodoContext{Context: c, DB: database}
+				todo_context := &api.TodoContext{Context: c, GetDatabase: db.CreateDatabaseConnection}
 				return next(todo_context)
 			}
 		})

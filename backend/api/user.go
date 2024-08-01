@@ -5,7 +5,6 @@ import (
 	"net/http"
 
 	"github.com/labstack/echo/v4"
-	"todoapp/db"
 )
 
 func userAlreadyExists(name string, db *sql.DB, c echo.Context) bool {
@@ -25,7 +24,11 @@ func userAlreadyExists(name string, db *sql.DB, c echo.Context) bool {
 }
 
 func CreateUser(c echo.Context) error {
-	database := db.CreateDatabaseConnection()
+	todo_context := c.(*TodoContext)
+	database, err := todo_context.GetDatabase()
+	if err != nil {
+		c.String(http.StatusInternalServerError, "Failed to load data")
+	}
 
 	user_name := c.FormValue("username")
 
@@ -47,7 +50,11 @@ func CreateUser(c echo.Context) error {
 }
 
 func GetAllUsers(c echo.Context) error {
-	database := db.CreateDatabaseConnection()
+	todo_context := c.(*TodoContext)
+	database, err := todo_context.GetDatabase()
+	if err != nil {
+		c.String(http.StatusInternalServerError, "Failed to load data")
+	}
 
 	user_rows, err := database.Query("SELECT Name FROM User;")
 
