@@ -21,7 +21,10 @@ jobs:
       with:
         node-version: 21.x
     - name: Install playwright
-      run: cd api-integration-tests && npx playwright install
+      run: | 
+        "cd api-integration-tests"
+        "npm install"
+        "npx playwright install"
       
     - name: Run Tests
       run: npx playwright test
