@@ -20,12 +20,13 @@ jobs:
       uses: actions/setup-node@v4
       with:
         node-version: 21.x
-    - name: Install node packages
-      run: cd api-integration-tests && npm install
-    - name: Install playwright
-      run: npx playwright install
-      
+    - name: Setup integration tests
+      working-directory: ./api-integration-tests
+      run: | 
+        npm install
+        npx playwright install
     - name: Run Tests
+      working-directory: ./api-integration-tests
       run: npx playwright test
       
     - name: Stop containers
