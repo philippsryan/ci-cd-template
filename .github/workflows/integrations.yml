@@ -17,7 +17,7 @@ jobs:
       run: docker compose up -d --build
 
     - name: Run migrations on database
-      run: sleep 5 && docker compose run api ./todoapp migrations
+      run: sleep 15 && docker compose run api ./todoapp migrations
 
     - name: Install Node
       uses: actions/setup-node@v4
