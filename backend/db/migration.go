@@ -95,7 +95,7 @@ func createMigrationTable(db *sql.DB) error {
 		return err
 	}
 
-	insert_result, err := db.Exec("INSERT INTO Migration (Current_Migration, Date_Performed) VALUES (NULL, NULL);")
+	insert_result, err := db.Exec("INSERT INTO Migrations (Current_Migration, Date_Performed) VALUES (NULL, NULL);")
 
 	if err != nil {
 		return err

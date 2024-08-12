@@ -45,6 +45,7 @@ func main() {
 
 		e.GET("/todos", api.GetTodo)
 		e.POST("/todos", api.CreateTodo)
+		e.GET("/todos/:id", api.GetTodoById)
 
 		e.Logger.Fatal(e.Start(":8000"))
 	} else {
