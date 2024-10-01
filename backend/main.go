@@ -1,12 +1,14 @@
 package main
 
 import (
+	"net/http"
 	"os"
 	"strconv"
 	"todoapp/api"
 	"todoapp/db"
 
 	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 )
 
 func main() {
@@ -32,7 +34,10 @@ func main() {
 
 	if command == "server" {
 		e := echo.New()
-
+		e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
+			AllowOrigins: []string{"http://localhost:5173"},
+			AllowMethods: []string{http.MethodGet, http.MethodPut, http.MethodPost, http.MethodDelete},
+		}))
 		e.Use(func(next echo.HandlerFunc) echo.HandlerFunc {
 			return func(c echo.Context) error {
 				todo_context := &api.TodoContext{Context: c, GetDatabase: db.CreateDatabaseConnection}
