@@ -1,0 +1,25 @@
+name: Frontend Verifier
+
+on:
+  workflow_call:
+  
+
+jobs:
+  test-ui:
+    timeout-minutes: 10
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Install Node
+      uses: actions/setup-node@v4
+      with:
+        node-version: 21.x
+
+    - name: Install npm modules 
+      working-directory: ./frontend
+      run: npm ci
+    - name: Run unit test
+      working-directory: ./frontend
+      run: npm test

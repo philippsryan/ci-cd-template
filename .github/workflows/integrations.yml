@@ -6,7 +6,10 @@ on:
     - main
 
 jobs:
-  docker:
+  ui:
+    uses: ./.github/workflows/ui-verification.yml
+
+  integration:
     timeout-minutes: 10
     runs-on: ubuntu-latest
 
