@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { getUsers } from "./userApi";
+import { createUser, getUsers } from "./userApi";
 import { useMemo, useState } from "react";
 
 
@@ -15,7 +15,7 @@ const UserSelectionScreen = ({ onUserSelected }: UserSelectionScreenProps) => {
     queryFn: () => getUsers()
   });
 
-  const createUser = useMutation({
+  const { mutate: makeUser } = useMutation({
     mutationKey: ["fetch-users"],
     mutationFn: (username: string) => createUser(username),
   });
@@ -36,7 +36,7 @@ const UserSelectionScreen = ({ onUserSelected }: UserSelectionScreenProps) => {
 
       <h3>Create a new user </h3>
       <input type="text" value={newUser} onChange={(e) => setNewUser(e.target.value)} />
-      <button onClick={() => createUser(newUser)}> Create User </button>
+      <button onClick={() => makeUser(newUser)}> Create User </button>
     </>
   );
 }
