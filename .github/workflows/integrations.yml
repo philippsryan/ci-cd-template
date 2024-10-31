@@ -13,8 +13,11 @@ on:
 
 jobs:
   ui:
-    uses: ./github/workflows/ui-check.yml@main
-    name: Test the UI
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check UI
+        uses: ./github/workflows/ui-check.yml
 
   integration:
     timeout-minutes: 10
