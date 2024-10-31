@@ -5,6 +5,12 @@ on:
     branches:
     - main
 
+  pull_request:
+    types:
+      - opened
+    branches:
+    - main
+
 jobs:
   ui:
     uses: ./github/workflows/ui-check.yml
