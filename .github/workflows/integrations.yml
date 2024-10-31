@@ -15,7 +15,8 @@ jobs:
   ui:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: checkout
+        uses: actions/checkout@v4
       - name: Check UI
         uses: ./github/workflows/ui-check.yml
 
