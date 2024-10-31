@@ -32,7 +32,6 @@ jobs:
         AWS_ACCESS_KEY_ID: ${{secrets.AWS_ACCESS_KEY_ID}}
         AWS_SECRET_ACCESS_KEY: ${{secrets.AWS_SECRET_ACCESS_KEY}}
       run: |
-          export TF_VAR_ecr_frontend_app_image="${{vars.ECR_FRONT_REPO_APP}}:$GITHUB_SHA"
           cd infra/
           docker compose run --rm terraform -chdir=deploy init
-          docker compose run --rm terraform -chdir=deploy apply -auto-approve
+          docker compose run --rm terraform -chdir=deploy apply -auto-approve -var "ecr_frontend_app_image=${{vars.ECR_FRONT_REPO_APP}}:$GITHUB_SHA"
