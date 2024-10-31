@@ -6,8 +6,10 @@ on:
     - main
 
   pull_request:
+    types:
+      - opened
     branches:
-      - main
+    - main
 
 jobs:
   ui:
