@@ -1,4 +1,4 @@
-name: Frontend Verifier
+name: Check UI 
 
 on:
   workflow_call:
