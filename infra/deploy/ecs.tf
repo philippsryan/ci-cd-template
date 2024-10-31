@@ -54,7 +54,7 @@ resource "aws_ecs_task_definition" "frontend" {
       image              = var.ecr_frontend_app_image
       essential          = true
       memeoryReservation = 256
-      user               = "frontend-user"
+      user               = "root"
       mountPoints = [
         {
           readOnly      = false
