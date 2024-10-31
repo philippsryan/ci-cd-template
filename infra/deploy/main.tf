@@ -6,11 +6,10 @@ terraform {
     }
   }
   backend "s3" {
-    bucket               = "ci-cd-template-tf-state"
-    key                  = "tf-state-deploy"
-    region               = "us-east-2"
-    encrypt              = true
-    workspace_key_prefix = "tf-state-deploy-env"
+    bucket  = "ci-cd-template-tf-state"
+    key     = "tf-state-deploy"
+    region  = "us-east-2"
+    encrypt = true
   }
 }
 
