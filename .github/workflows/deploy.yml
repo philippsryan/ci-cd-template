@@ -11,6 +11,7 @@ jobs:
   # send the image up to the ecr 
 
   deploy:
+    runs-on: ubuntu-latest
     steps:
     - name: Checkout
       uses: actions/checkout@v4
