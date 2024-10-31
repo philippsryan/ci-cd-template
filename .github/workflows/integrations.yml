@@ -7,7 +7,7 @@ on:
 
 jobs:
   ui:
-    uses: ./.github/workflows/ui-verification.yml
+    uses: ./github/workflows/ui-check.yml
 
   integration:
     timeout-minutes: 10
