@@ -13,7 +13,8 @@ on:
 
 jobs:
   ui:
-    uses: ./github/workflows/ui-check.yml
+    uses: ./github/workflows/ui-check.yml@main
+    name: Test the UI
 
   integration:
     timeout-minutes: 10
