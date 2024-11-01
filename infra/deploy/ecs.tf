@@ -77,6 +77,25 @@ resource "aws_ecs_task_definition" "frontend" {
       essential          = true
       memeoryReservation = 256
       user               = "root"
+      environment = [
+        {
+          name  = "MYSQL_HOST"
+          value = aws_db_instance.main.address
+        },
+
+        {
+          name  = "MYSQL_PASSWORD"
+          value = var.db_password
+        },
+        {
+          name  = "MYSQL_USER"
+          value = var.db_username
+        },
+        {
+          name  = "MYSQL_DB"
+          value = "todo"
+        },
+      ]
       logConfiguration = {
         logDriver = "awslogs"
         options = {
