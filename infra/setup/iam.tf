@@ -27,8 +27,7 @@ data "aws_iam_policy_document" "tf_backend" {
     actions = ["s3:GetObject", "s3:PutObject", "s3:DeleteObject"]
     resources = [
       # only applys to these locations in the s3 bucket
-      "arn:aws:s3:::${var.tf_state_bucket}/tf-state-setup/*",
-      "arn:aws:s3:::${var.tf_state_bucket}/tf-state-deploy/*",
+      "arn:aws:s3:::${var.tf_state_bucket}/*",
     ]
   }
 }

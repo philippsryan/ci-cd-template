@@ -86,7 +86,7 @@ resource "aws_ecs_task_definition" "frontend" {
 resource "aws_security_group" "ecs_service" {
   description = "access rules for the ecs service"
   name        = "${local.prefix}-ecs-service"
-
+  vpc_id      = aws_vpc.main.id
   # outbound access to the endpoints
   egress {
     from_port   = 443
@@ -97,8 +97,8 @@ resource "aws_security_group" "ecs_service" {
 
   # inbound access via HTTP
   ingress {
-    from_port   = 8080
-    to_port     = 8080
+    from_port   = 5173
+    to_port     = 5173
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
@@ -117,7 +117,7 @@ resource "aws_ecs_service" "frontend" {
   network_configuration {
     assign_public_ip = true
 
-    subnets         = ["subnet-0181255b490a4ad97"]
+    subnets         = [aws_subnet.public_a.id]
     security_groups = [aws_security_group.ecs_service.id]
   }
 
