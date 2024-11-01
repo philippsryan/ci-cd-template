@@ -44,4 +44,4 @@ jobs:
       run: |
           cd infra/
           docker compose run --rm terraform -chdir=deploy init
-          docker compose run --rm terraform -chdir=deploy apply -auto-approve -var "ecr_frontend_app_image=${{vars.ECR_FRONT_REPO_APP}}:$GITHUB_SHA" -var "ecr_backend_app_image"="${{vars.ECR_BACK_REPO_APP}}:$GITHUB_SHA"
+          docker compose run --rm terraform -chdir=deploy apply -auto-approve -var "ecr_frontend_app_image=${{vars.ECR_FRONT_REPO_APP}}:$GITHUB_SHA" -var "ecr_backend_app_image=${{vars.ECR_BACK_REPO_APP}}:$GITHUB_SHA" -var "db_password=${{secrets.TF_VAR_DB_PASSWORD}}"
