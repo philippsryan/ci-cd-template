@@ -11,3 +11,6 @@ variable "project" {
 variable "ecr_frontend_app_image" {
   description = "docker container image for the frontend application within ecr"
 }
+variable "ecr_backend_app_image" {
+  description = "docker container image for the backend application within ecr"
+}

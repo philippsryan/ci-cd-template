@@ -70,6 +70,21 @@ resource "aws_ecs_task_definition" "frontend" {
           awslogs-stream-prefix = "frontend"
         }
       }
+    },
+    {
+      name               = "backend"
+      image              = var.ecr_backend_app_image
+      essential          = true
+      memeoryReservation = 256
+      user               = "root"
+      logConfiguration = {
+        logDriver = "awslogs"
+        options = {
+          awslogs-group         = aws_cloudwatch_log_group.ecs_task_logs.name
+          awslogs-region        = data.aws_region.current.name
+          awslogs-stream-prefix = "backend"
+        }
+      }
     }
   ])
 
@@ -83,6 +98,7 @@ resource "aws_ecs_task_definition" "frontend" {
   }
 }
 
+
 resource "aws_security_group" "ecs_service" {
   description = "access rules for the ecs service"
   name        = "${local.prefix}-ecs-service"
@@ -95,10 +111,25 @@ resource "aws_security_group" "ecs_service" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
+  # outbound access to the RDS mysql database
+  egress {
+    to_port     = 3306
+    from_port   = 3306
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
   # inbound access via HTTP
   ingress {
     from_port   = 5173
     to_port     = 5173
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    from_port   = 8000
+    to_port     = 8000
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }

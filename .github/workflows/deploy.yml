@@ -26,6 +26,15 @@ jobs:
         docker build --compress -t ${{vars.ECR_FRONT_REPO_APP}}:$GITHUB_SHA frontend
         docker push ${{vars.ECR_FRONT_REPO_APP}}:$GITHUB_SHA
 
+    - name: Push BE Image to ECR
+      env:
+        AWS_ACCESS_KEY_ID: ${{secrets.AWS_ACCESS_KEY_ID}}
+        AWS_SECRET_ACCESS_KEY: ${{secrets.AWS_SECRET_ACCESS_KEY}}
+
+      run: |
+        aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin ${{secrets.AWS_ACCOUNT_ID}}.dkr.ecr.us-east-2.amazonaws.com
+        docker build --compress -t ${{vars.ECR_BACK_REPO_APP}}:$GITHUB_SHA backend
+        docker push ${{vars.ECR_BACK_REPO_APP}}:$GITHUB_SHA
 
     - name: Deploy terraform 
       env:

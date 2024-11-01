@@ -246,3 +246,34 @@ resource "aws_iam_user_policy_attachment" "ec2" {
   policy_arn = aws_iam_policy.ec2.arn
 }
 
+
+
+### RDS policy
+
+data "aws_iam_policy_document" "rds" {
+  statement {
+    effect = "Allow"
+    actions = [
+      "rds:DescribeDBSubnetGroups",
+      "rds:DescribeDBInstances",
+      "rds:CreateDBSubnetGroups",
+      "rds:DeleteDBSubnetGroups",
+      "rds:CreateDBInstances",
+      "rds:DeleteDBInstances",
+      "rds:ModifyDBInstance"
+    ]
+    resources = ["*"]
+  }
+
+}
+
+resource "aws_iam_policy" "rds" {
+  name        = "${aws_iam_user.cd.name}-rds"
+  description = "Allows cd user to modify rds"
+  policy      = data.aws_iam_policy_document.rds.json
+}
+
+resource "aws_iam_user_policy_attachment" "rds" {
+  user       = aws_iam_user.cd.name
+  policy_arn = aws_iam_policy.rds.arn
+}

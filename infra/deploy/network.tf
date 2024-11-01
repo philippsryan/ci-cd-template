@@ -15,6 +15,11 @@ resource "aws_internet_gateway" "main" {
 }
 
 
+resource "aws_subnet" "private_a" {
+  vpc_id            = aws_vpc.main.id
+  cidr_block        = "10.1.1.0/24"
+  availability_zone = "${data.aws_region.current.name}a"
+}
 resource "aws_subnet" "public_a" {
   vpc_id                  = aws_vpc.main.id
   cidr_block              = "10.1.1.0/24"
