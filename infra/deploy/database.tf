@@ -12,7 +12,7 @@ variable "db_password" {
 
 resource "aws_db_subnet_group" "db_subnet" {
   name       = "${local.prefix}-main"
-  subnet_ids = [aws_subnet.private_a.id]
+  subnet_ids = [aws_subnet.private_a.id, aws_subnet.private_b]
 
 }
 
@@ -21,10 +21,14 @@ resource "aws_security_group" "rds" {
   name        = "${local.prefix}-rds-inbound-access"
   vpc_id      = aws_vpc.main.id
 
+
   ingress {
     protocol  = "tcp"
     from_port = "3306"
     to_port   = "3306"
+    security_groups = [
+      aws_security_group.ecs_service.id
+    ]
   }
 
   tags = {

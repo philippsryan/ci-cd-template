@@ -121,6 +121,11 @@ resource "aws_iam_user_policy_attachment" "ecs" {
 # Policy for IAM access #
 #########################
 
+resource "aws_iam_service_linked_role" "rds-security-group" {
+  aws_service_name = "rds.amazonaws.com"
+}
+
+
 data "aws_iam_policy_document" "iam" {
   statement {
     effect = "Allow"
@@ -140,7 +145,8 @@ data "aws_iam_policy_document" "iam" {
       "iam:AttachRolePolicy",
       "iam:TagRole",
       "iam:TagPolicy",
-      "iam:PassRole"
+      "iam:PassRole",
+      "iam:CreateServiceLinkedRole"
     ]
     resources = ["*"]
   }
@@ -256,11 +262,13 @@ data "aws_iam_policy_document" "rds" {
     actions = [
       "rds:DescribeDBSubnetGroups",
       "rds:DescribeDBInstances",
-      "rds:CreateDBSubnetGroups",
-      "rds:DeleteDBSubnetGroups",
-      "rds:CreateDBInstances",
-      "rds:DeleteDBInstances",
-      "rds:ModifyDBInstance"
+      "rds:CreateDBSubnetGroup",
+      "rds:DeleteDBSubnetGroup",
+      "rds:CreateDBInstance",
+      "rds:DeleteDBInstance",
+      "rds:ListTagsForResource",
+      "rds:ModifyDBInstance",
+      "rds:AddTagsToResource"
     ]
     resources = ["*"]
   }
