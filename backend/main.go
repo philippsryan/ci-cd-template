@@ -17,20 +17,14 @@ func main() {
 
 	command := args[1]
 
-	println(command, "== migrations:", command == "migrations")
+	database, _ := db.CreateDatabaseConnection()
+	completed_migrations, err := db.RunMigrations(database)
 
-	if command == "migrations" {
-
-		database, _ := db.CreateDatabaseConnection()
-		completed_migrations, err := db.RunMigrations(database)
-
-		if err != nil {
-			panic("Completed: " + strconv.FormatInt(int64(completed_migrations), 10) + " but ran into error: " + err.Error())
-		}
-
-		println("Migrations are done! Completed", completed_migrations)
-		return
+	if err != nil {
+		panic("Completed: " + strconv.FormatInt(int64(completed_migrations), 10) + " but ran into error: " + err.Error())
 	}
+
+	println("Migrations are done! Completed", completed_migrations)
 
 	if command == "server" {
 		e := echo.New()
