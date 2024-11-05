@@ -35,7 +35,7 @@ func main() {
 	if command == "server" {
 		e := echo.New()
 		e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
-			AllowOrigins: []string{"http://localhost:5173"},
+			AllowOrigins: []string{"*"},
 			AllowMethods: []string{http.MethodGet, http.MethodPut, http.MethodPost, http.MethodDelete},
 		}))
 		e.Use(func(next echo.HandlerFunc) echo.HandlerFunc {
