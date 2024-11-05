@@ -76,7 +76,6 @@ resource "aws_ecs_task_definition" "frontend" {
       image              = var.ecr_backend_app_image
       essential          = true
       memeoryReservation = 256
-      user               = "root"
       environment = [
         {
           name  = "MYSQL_HOST"
@@ -95,7 +94,9 @@ resource "aws_ecs_task_definition" "frontend" {
           name  = "MYSQL_DB"
           value = "todo"
         },
-      ]
+      ],
+
+      mountPoints = [],
       logConfiguration = {
         logDriver = "awslogs"
         options = {
