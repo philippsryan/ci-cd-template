@@ -12,6 +12,8 @@ on:
     - main
 
 jobs:
+  check-ui:
+    uses: philippsryan/ci-cd-template/.github/workflows/ui-check.yml@main
   integration:
     timeout-minutes: 10
     runs-on: ubuntu-latest
