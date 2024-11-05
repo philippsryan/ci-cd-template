@@ -92,7 +92,7 @@ resource "aws_ecs_task_definition" "frontend" {
         },
         {
           name  = "MYSQL_DB"
-          value = "todo"
+          value = "todos"
         },
       ],
 
