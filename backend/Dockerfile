@@ -12,5 +12,7 @@ WORKDIR /app
 COPY --from=builder /app/todoapp ./todoapp
 COPY --from=builder /app/migrations ./migrations
 
+EXPOSE 8000
+
 CMD ["/app/todoapp", "server"]
 
