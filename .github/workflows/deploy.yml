@@ -1,17 +1,14 @@
 name: "Deploy to AWS"
 
 on:
-  worflow_run:
-    workflows: ["Check UI"]
-    branches: [main]
-    types:
-      - completed
+  workflow_call
+
 
 jobs:
   # build the image
   # send the image up to the ecr 
 
-  on-success:
+  deploy-envs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
