@@ -40,6 +40,7 @@ jobs:
         docker push ${{vars.ECR_BACK_REPO_APP}}:${{github.event.inputs.environment}}-$GITHUB_SHA
 
   apply-terraform:
+    needs: ["push-image"]
     runs-on: ubuntu-latest
     steps:
     - name: Checkout

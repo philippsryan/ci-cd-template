@@ -10,6 +10,7 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v4
   deploy-dev:
+    needs: ["checkout"]
     name: deploy dev
     uses: ./.github/workflows/push&apply.yaml
     with:
