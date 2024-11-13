@@ -58,3 +58,7 @@ jobs:
   deployment:
     needs: ["integration"]
     uses: ./.github/workflows/continuos-deployment.yml
+    secrets:
+      aws_access_key: ${{secrets.AWS_SECRET_ACCESS_KEY}}
+      aws_access_key_id: ${{secrets.AWS_ACCESS_KEY_ID}}
+      aws_account_id: ${{secrets.AWS_ACCOUNT_ID}}

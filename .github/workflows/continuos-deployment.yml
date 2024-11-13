@@ -1,7 +1,14 @@
 name: Continuos Deployment
 
 on:
-  workflow_call
+  workflow_call:
+    secrets:
+      aws_access_key:
+        required: true
+      aws_access_key_id:
+        required: true
+      aws_account_id:
+        required: true
 
 jobs:
   checkout:
@@ -15,3 +22,7 @@ jobs:
     uses: ./.github/workflows/push&apply.yaml
     with:
       environment: "dev"
+    secrets:
+      aws_access_key: ${{secrets.aws_access_key}}
+      aws_access_key_id: ${{secrets.aws_access_key_id}}
+      aws_account_id: ${{secrets.aws_account_id}}

@@ -8,8 +8,14 @@ on:
         type: string 
         required: true
         default: 'dev'
-
-
+    secrets:
+      aws_access_key:
+        required: true
+      aws_access_key_id:
+        required: true
+      aws_account_id:
+        required: true
+      
 
 jobs:
   push-image:
@@ -20,23 +26,22 @@ jobs:
 
     - name: Push FE Image to ECR
       env:
-        AWS_ACCESS_KEY_ID: ${{secrets.AWS_ACCESS_KEY_ID}}
-        AWS_SECRET_ACCESS_KEY: ${{secrets.AWS_SECRET_ACCESS_KEY}}
+        AWS_ACCESS_KEY_ID: ${{secrets.aws_access_key_id}}
+        AWS_SECRET_ACCESS_KEY: ${{secrets.aws_access_key}}
 
       run: |
-        echo ${#AWS_ACCESS_KEY_ID}
-        aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin ${{secrets.AWS_ACCOUNT_ID}}.dkr.ecr.us-east-2.amazonaws.com
+        aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin ${{secrets.aws_account_id}}.dkr.ecr.us-east-2.amazonaws.com
         docker build --compress -t ${{vars.ECR_FRONT_REPO_APP}}:${{inputs.environment}}-$GITHUB_SHA frontend
         docker push ${{vars.ECR_FRONT_REPO_APP}}:${{inputs.environment}}-$GITHUB_SHA
 
     - name: Push BE Image to ECR
       env:
-        AWS_ACCESS_KEY_ID: ${{secrets.AWS_ACCESS_KEY_ID}}
-        AWS_SECRET_ACCESS_KEY: ${{secrets.AWS_SECRET_ACCESS_KEY}}
+        AWS_ACCESS_KEY_ID: ${{secrets.aws_access_key_id}}
+        AWS_SECRET_ACCESS_KEY: ${{secrets.aws_access_key}}
         TF_VAR_db_password: ${{secrets.TF_VAR_DB_PASSWORD}}
 
       run: |
-        aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin ${{secrets.AWS_ACCOUNT_ID}}.dkr.ecr.us-east-2.amazonaws.com
+        aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin ${{secrets.aws_account_id}}.dkr.ecr.us-east-2.amazonaws.com
         docker build --compress -t ${{vars.ECR_BACK_REPO_APP}}:${{inputs.environment}}-$GITHUB_SHA backend
         docker push ${{vars.ECR_BACK_REPO_APP}}:${{inputs.environment}}-$GITHUB_SHA
 
@@ -49,8 +54,8 @@ jobs:
   
     - name: Deploy terraform 
       env:
-        AWS_ACCESS_KEY_ID: ${{secrets.AWS_ACCESS_KEY_ID}}
-        AWS_SECRET_ACCESS_KEY: ${{secrets.AWS_SECRET_ACCESS_KEY}}
+        AWS_ACCESS_KEY_ID: ${{secrets.aws_access_key_id}}
+        AWS_SECRET_ACCESS_KEY: ${{secrets.aws_access_key}}
       run: |
           cd infra/
           docker compose run --rm terraform -chdir=deploy init
