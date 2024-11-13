@@ -46,4 +46,4 @@ jobs:
 
     deploy-changes:
       uses: philippsryan/ci-cd-template/.github/workflows/ui-check.yml@main
-      needs: ["integration"]
+      needs: ["check-ui"]
