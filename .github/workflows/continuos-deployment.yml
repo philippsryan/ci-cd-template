@@ -5,12 +5,6 @@ on:
 
 jobs:
   deploy-dev:
-    runs-on: ubuntu-latest
-    name: Deploy to environments
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v4
-    - name: Deploy Dev
-      uses: ./.github/workflows/push&apply.yml
-      with:
-        environment: "dev"
+    uses: ./.github/workflows/push&apply.yml
+    with:
+      environment: "dev"
