@@ -25,20 +25,8 @@ jobs:
       working-directory: ./frontend
       run: npm test
 
-  codacy-analysis-cli:
-    needs: ["test-ui"]
-    name: Codacy Analysis CLI
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@main
-
-      - name: Run Codacy Analysis CLI
-        uses: codacy/codacy-analysis-cli-action@master
- 
-
   integration:
-    needs: ["codacy-analysis-cli"]
+    needs: ["test-ui"]
     timeout-minutes: 10
     runs-on: ubuntu-latest
 
@@ -67,3 +55,6 @@ jobs:
     - name: Stop containers
       if: always()
       run: docker compose down
+  deployment:
+    needs: ["integration"]
+    uses: ./.github/workflows/continous-deployment.yml
