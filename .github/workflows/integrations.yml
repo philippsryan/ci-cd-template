@@ -45,5 +45,5 @@ jobs:
       run: docker compose down
 
   deploy-changes:
-    uses: philippsryan/ci-cd-template/.github/workflows/ui-check.yml@main
+    uses: philippsryan/ci-cd-template/.github/workflows/deploy.yml@main
     needs: ["check-ui"]
