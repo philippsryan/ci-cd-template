@@ -46,4 +46,4 @@ jobs:
 
   deploy-changes:
     name: Deploy changes
-    uses: ./.github/workflows/deploy.yml
+    uses: philippsryan/ci-cd-template/.github/workflows/deploy.yml@main
