@@ -9,6 +9,8 @@ on:
         required: true
       aws_account_id:
         required: true
+      database_password:
+        required: true
 
 jobs:
   checkout:
@@ -26,3 +28,4 @@ jobs:
       aws_access_key: ${{secrets.aws_access_key}}
       aws_access_key_id: ${{secrets.aws_access_key_id}}
       aws_account_id: ${{secrets.aws_account_id}}
+      database_password: ${{secrets.database_password}}
