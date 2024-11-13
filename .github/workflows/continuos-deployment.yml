@@ -29,3 +29,15 @@ jobs:
       aws_access_key_id: ${{secrets.aws_access_key_id}}
       aws_account_id: ${{secrets.aws_account_id}}
       database_password: ${{secrets.database_password}}
+
+  deploy-prod:
+    needs: ["deploy-dev"]
+    name: deploy prod
+    uses: ./.github/workflows/push&apply.yaml
+    with:
+      environment: "prod"
+    secrets:
+      aws_access_key: ${{secrets.aws_access_key}}
+      aws_access_key_id: ${{secrets.aws_access_key_id}}
+      aws_account_id: ${{secrets.aws_account_id}}
+      database_password: ${{secrets.database_password}}

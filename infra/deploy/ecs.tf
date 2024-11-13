@@ -35,7 +35,7 @@ resource "aws_cloudwatch_log_group" "ecs_task_logs" {
 
 
 resource "aws_ecs_cluster" "main" {
-  name = "ci-cd-cluster"
+  name = "ci-cd-cluster-${local.prefix}"
 }
 
 resource "aws_ecs_task_definition" "frontend" {
