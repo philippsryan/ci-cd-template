@@ -45,5 +45,5 @@ jobs:
       run: docker compose down
 
   deploy-changes:
-    uses: "./.github/workflows/deploy.yml"
+    uses: ./.github/workflows/deploy.yml
     needs: ["check-ui"]
