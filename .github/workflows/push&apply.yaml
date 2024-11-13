@@ -25,8 +25,8 @@ jobs:
 
       run: |
         aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin ${{secrets.AWS_ACCOUNT_ID}}.dkr.ecr.us-east-2.amazonaws.com
-        docker build --compress -t ${{vars.ECR_FRONT_REPO_APP}}:${{github.event.inputs.environment}}-$GITHUB_SHA frontend
-        docker push ${{vars.ECR_FRONT_REPO_APP}}:${{github.event.inputs.environment}}-$GITHUB_SHA
+        docker build --compress -t ${{vars.ECR_FRONT_REPO_APP}}:${{inputs.environment}}-$GITHUB_SHA frontend
+        docker push ${{vars.ECR_FRONT_REPO_APP}}:${{inputs.environment}}-$GITHUB_SHA
 
     - name: Push BE Image to ECR
       env:
@@ -36,8 +36,8 @@ jobs:
 
       run: |
         aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin ${{secrets.AWS_ACCOUNT_ID}}.dkr.ecr.us-east-2.amazonaws.com
-        docker build --compress -t ${{vars.ECR_BACK_REPO_APP}}:${{github.event.inputs.environment}}-$GITHUB_SHA backend
-        docker push ${{vars.ECR_BACK_REPO_APP}}:${{github.event.inputs.environment}}-$GITHUB_SHA
+        docker build --compress -t ${{vars.ECR_BACK_REPO_APP}}:${{inputs.environment}}-$GITHUB_SHA backend
+        docker push ${{vars.ECR_BACK_REPO_APP}}:${{inputs.environment}}-$GITHUB_SHA
 
   apply-terraform:
     needs: ["push-image"]
@@ -53,5 +53,5 @@ jobs:
       run: |
           cd infra/
           docker compose run --rm terraform -chdir=deploy init
-          docker compose run --rm terraform -chdir=deploy workspace select -or-create ${{github.event.inputs.environment}}
-          docker compose run --rm terraform -chdir=deploy apply -auto-approve -var "ecr_frontend_app_image=${{vars.ECR_FRONT_REPO_APP}}:${{github.event.inputs.environment}}-$GITHUB_SHA" -var "ecr_backend_app_image=${{vars.ECR_BACK_REPO_APP}}:${{github.event.inputs.environment}}-$GITHUB_SHA" -var "db_password=${{secrets.TF_VAR_DB_PASSWORD}}" -var "db_username=cicd"
+          docker compose run --rm terraform -chdir=deploy workspace select -or-create ${{inputs.environment}}
+          docker compose run --rm terraform -chdir=deploy apply -auto-approve -var "ecr_frontend_app_image=${{vars.ECR_FRONT_REPO_APP}}:${{inputs.environment}}-$GITHUB_SHA" -var "ecr_backend_app_image=${{vars.ECR_BACK_REPO_APP}}:${{inputs.environment}}-$GITHUB_SHA" -var "db_password=${{secrets.TF_VAR_DB_PASSWORD}}" -var "db_username=cicd"
