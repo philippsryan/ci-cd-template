@@ -4,7 +4,12 @@ on:
   workflow_call
 
 jobs:
-  deploy-dev:
-    uses: ./.github/workflows/push&apply.yml
-    with:
-      environment: "dev"
+  checkout:
+    runs-on: ubuntu-lastest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+    - name: deploy dev
+      uses: ./.github/workflows/push&apply.yaml
+      with:
+        environment: "dev"
