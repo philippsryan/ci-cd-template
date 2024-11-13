@@ -5,6 +5,7 @@ on:
     inputs:
       environment:
         description: "AWS Env to push changes too"
+        type: string 
         required: true
         default: 'dev'
 
