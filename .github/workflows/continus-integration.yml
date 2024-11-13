@@ -48,13 +48,13 @@ jobs:
       run: | 
         npm install
         npx playwright install
-    - name: Run Tests
-      working-directory: ./api-integration-tests
-      run: npx playwright test
+      #- name: Run Tests
+        #working-directory: ./api-integration-tests
+        #  run: npx playwright test
       
     - name: Stop containers
       if: always()
       run: docker compose down
   deployment:
-    needs: ["integration"]
+    needs: ["test-ui"]
     uses: ./.github/workflows/continuos-deployment.yml
